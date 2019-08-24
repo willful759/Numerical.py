@@ -20,3 +20,19 @@ def incrementalSearch(func,a,b,delta= 0.01,precision= 4):
             return (x1,x2,'right')
         else:
             return (x1,x2,'center')
+
+def bisection(func,a,b,iterations = 20):
+
+    fa = func(a)
+    fb = func(b)
+
+    mid = 0.5*(a + b)
+
+    fmid = func(mid)
+    if iterations == 0:
+        return mid;
+    elif fa*fmid < 0:
+        return bisection(func,a,mid,iterations - 1)
+    else:
+        return bisection(func,mid,b,iterations - 1)
+
