@@ -25,14 +25,35 @@ def bisection(func,a,b,iterations = 20):
 
     fa = func(a)
     fb = func(b)
-
-    mid = 0.5*(a + b)
-
-    fmid = func(mid)
-    if iterations == 0:
+    
+    if fa == 0:
+        return fa
+    elif fb == 0:
+        return fb
+    
+    for x in range(0,iterations):
+        mid = 0.5*(a + b)
+        fmid = func(mid)
+        if fmid == 0:
+            return mid
+        elif fa*fmid < 0:
+            b = mid
+            fb = fmid
+        else:
+            a = mid
+            fa = fmid
+            
+    return mid
+    
+    
+    """if iterations == 0:
         return mid;
     elif fa*fmid < 0:
         return bisection(func,a,mid,iterations - 1)
     else:
-        return bisection(func,mid,b,iterations - 1)
-
+        return bisection(func,mid,b,iterations - 1)"""
+        
+def newtonRaphson(f,df,x,iterations = 5):
+    for i in range(0,iterations):
+        x = x - f(x)/df(x)
+    return x
