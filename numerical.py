@@ -57,3 +57,49 @@ def newtonRaphson(f,df,x,iterations = 5):
     for i in range(0,iterations):
         x = x - f(x)/df(x)
     return x
+    
+def augment(mat,coeff):
+    if len(mat) == len(coeff):
+        res = []
+        for i in range(len(mat)):
+            res += [(mat[i] + [coeff[i]])]
+        return res
+    else:
+        return []
+
+def gauss_jordan_for(mat,coeff):
+    if len(mat[0]) == len(coeff):
+        aug = augment(mat,coeff)
+        m = len(aug)
+        n = len(aug[0])
+        for i in range(m):
+            leading = aug[i][i]
+            for j in range(i,n):
+                aug[i][j] = (1.0/leading)*aug[i][j]
+            for w in range(m):
+                if i != w:
+                    leading2 = aug[w][i]
+                    for j in range(n):
+                        aug[w][j] = -leading2*aug[i][j] + aug[w][j]
+
+        res = []
+        for i in range(0,m):
+            res.append(aug[i][n - 1])
+        return res
+    else:
+        return []
+
+def gauss_jordan_zip(mat,coeff):
+    if len(mat[0]) == len(coeff):
+        aug = augment(mat,coeff)
+        for i in range(len(mat)):
+            aug[i] = list(map(lambda x: x/aug[i][i],aug[i]))
+            for w in range(len(mat)):
+                if w != i:
+                    aug[w] = zipWith(lambda x,y: -aug[w][i]*x + y,aug[i],aug[w])
+        res = []
+        for i in range(len(aug)):
+            res.append(aug[i][len(aug[0]) - 1])
+        return res
+    else:
+        return []
